@@ -4,18 +4,19 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAsc8iUDoM25U11T4HZEjwUP1nVvEt-wNg",
-  authDomain: "new-app-a3d80.firebaseapp.com",
-  projectId: "new-app-a3d80",
-  storageBucket: "new-app-a3d80.appspot.com",
-  messagingSenderId: "718354011915",
-  appId: "1:718354011915:web:723f368bc6290e26bcb40e"
+  apiKey: "AIzaSyDOKf41mm_ZEoBz3hc7sSkB1Io0ln7bTJg",
+  authDomain: "e-commerce-app-b6db1.firebaseapp.com",
+  projectId: "e-commerce-app-b6db1",
+  storageBucket: "e-commerce-app-b6db1.appspot.com",
+  messagingSenderId: "899899781914",
+  appId: "1:899899781914:web:ffad11b1b1ebef9f26f2a3",
+  measurementId: "G-M1N3R3258E",
 };
 
 // Initialize Firebase
@@ -32,7 +33,7 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, Provider);
 
 export const db = getFirestore();
 
-export const createUserDocFromAuth = async (userAuth) => {
+export const createUserDocFromAuth = async (userAuth, additionalInfo = {}) => {
   if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
 
@@ -47,6 +48,7 @@ export const createUserDocFromAuth = async (userAuth) => {
         displayName,
         email,
         createdAt,
+        ...additionalInfo,
       });
     } catch (error) {
       console.log("error creating user", error.message);
@@ -56,7 +58,10 @@ export const createUserDocFromAuth = async (userAuth) => {
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return; 
+  if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
- 
+};
+export const SignInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
 };
